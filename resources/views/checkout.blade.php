@@ -19,8 +19,8 @@
                         <div class="col-lg-5 col-12">
                             <div class="item-bootcamp">
                                 <img src="/assets/images/item_bootcamp.png" alt="" class="cover">
-                                <h1 class="package">
-                                    GILA BELAJAR
+                                <h1 class="package text-uppercase">
+                                    {{ $camp->title }}
                                 </h1>
                                 <p class="description">
                                     Bootcamp ini akan mengajak Anda untuk belajar penuh mulai dari pengenalan dasar sampai
