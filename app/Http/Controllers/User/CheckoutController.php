@@ -44,7 +44,7 @@ class CheckoutController extends Controller
         $data['user_id'] = Auth::id();
         $data['camp_id'] = $camp->id;
 
-        // update occupation use
+        // update occupation user
         $user = Auth::user();
         $user->occupation = $data['occupation'];
         $user->save();
