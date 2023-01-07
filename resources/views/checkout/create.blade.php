@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Checkout Camp
+@endsection
+
 @section('content')
     <section class="checkout">
         <div class="container">
@@ -34,26 +38,42 @@
                                 @csrf
                                 <div class="mb-4">
                                     <label for="exampleInputEmail1" class="form-label">Occupation</label>
-                                    <input type="text" name="occupation" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                    <input type="text" name="occupation"
+                                        class="form-control {{ $errors->has('occupation') ? 'is-invalid' : '' }}"
+                                        value="{{ old('occupation') ?: Auth::user()->occupation }}">
+                                    @if ($errors->has('occupation'))
+                                        <p class="text-danger">{{ $errors->first('occupation') }}</p>
+                                    @endif
                                 </div>
                                 <div class="mb-4">
                                     <label for="exampleInputEmail1" class="form-label">Card Number</label>
-                                    <input type="number" name="card_number" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                    <input type="number" name="card_number"
+                                        class="form-control {{ $errors->has('card_number') ? 'is-invalid' : '' }}"
+                                        value="{{ old('card_number' ?: '') }}">
+                                    @if ($errors->has('card_number'))
+                                        <p class="text-danger">{{ $errors->first('card_number') }}</p>
+                                    @endif
                                 </div>
                                 <div class="mb-5">
                                     <div class="row">
                                         <div class="col-lg-6 col-12">
                                             <label for="exampleInputEmail1" class="form-label">Expired</label>
-                                            <input type="month" name="expired" class="form-control"
-                                                id="exampleInputEmail1" aria-describedby="emailHelp">
+                                            <input type="month" name="expired"
+                                                class="form-control {{ $errors->has('expired') ? 'is-invalid' : '' }}"
+                                                value="{{ old('expired' ?: '') }}">
+                                            @if ($errors->has('expired'))
+                                                <p class="text-danger">{{ $errors->first('expired') }}</p>
+                                            @endif
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             <label for="exampleInputEmail1" class="form-label">CVC</label>
-                                            <input type="number" name="cvc" class="form-control" min="0"
-                                                pattern="/^-?\d+\.?\d*$/"
+                                            <input type="number" name="cvc"
+                                                class="form-control {{ $errors->has('cvc') ? 'is-invalid' : '' }}"
+                                                value="{{ old('cvc' ?: '') }}" min="0" pattern="/^-?\d+\.?\d*$/"
                                                 onKeyPress="if(this.value.length==3) return false;">
+                                            @if ($errors->has('cvc'))
+                                                <p class="text-danger">{{ $errors->first('cvc') }}</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
