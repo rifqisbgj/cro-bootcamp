@@ -30,38 +30,30 @@
                         </div>
                         <div class="col-lg-1 col-12"></div>
                         <div class="col-lg-6 col-12">
-                            <form action="#" class="basic-form">
-                                <div class="mb-4">
-                                    <label for="exampleInputEmail1" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
-                                </div>
+                            <form action="{{ route('checkout.store', $camp->id) }}" method="POST" class="basic-form">
+                                @csrf
                                 <div class="mb-4">
                                     <label for="exampleInputEmail1" class="form-label">Occupation</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                    <input type="text" name="occupation" class="form-control" id="exampleInputEmail1"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-4">
                                     <label for="exampleInputEmail1" class="form-label">Card Number</label>
-                                    <input type="number" class="form-control" id="exampleInputEmail1"
+                                    <input type="number" name="card_number" class="form-control" id="exampleInputEmail1"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-5">
                                     <div class="row">
                                         <div class="col-lg-6 col-12">
                                             <label for="exampleInputEmail1" class="form-label">Expired</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp">
+                                            <input type="month" name="expired" class="form-control"
+                                                id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             <label for="exampleInputEmail1" class="form-label">CVC</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp">
+                                            <input type="number" name="cvc" class="form-control" min="0"
+                                                pattern="/^-?\d+\.?\d*$/"
+                                                onKeyPress="if(this.value.length==3) return false;">
                                         </div>
                                     </div>
                                 </div>

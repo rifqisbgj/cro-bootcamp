@@ -20,11 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+// Checkout Start
+Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('checkout/{camp:slug}', [CheckoutController::class, 'create'])->name('checkout.create');
-
-Route::get('success-checkout', function () {
-    return view('success_checkout');
-})->name('success-checkout');
+Route::post('checkout/{camp}', [CheckoutController::class, 'store'])->name('checkout.store');
+// End Checkout
 
 Route::get('/dashboard', function () {
     return view('dashboard');
