@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    CroCamp - Try your best with us
+@endsection
 @section('content')
     <section class="banner">
         <div class="container">
@@ -37,7 +40,6 @@
             </div>
         </div>
     </section>
-
 
     <section class="benefits">
         <div class="container">

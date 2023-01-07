@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Checkout extends Model
 {
@@ -11,8 +12,18 @@ class Checkout extends Model
 
     protected $fillable = ['user_id', 'camp_id', 'card_number', 'expired', 'cvc', 'is_paid'];
 
-    public function setExpiredAttribute($ex)
+    public function setExpiredAttribute($expired)
     {
-        $this->attributes['expired'] = date('Y-m-t', strtotime($ex));
+        $this->attributes['expired'] = date('Y-m-t', strtotime($expired));
+    }
+
+    /**
+     * Get the camp that owns the Checkout
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function camp(): BelongsTo
+    {
+        return $this->belongsTo(Camp::class, 'camp_id');
     }
 }
