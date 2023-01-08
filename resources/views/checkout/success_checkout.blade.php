@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    Success Checkout
+@endsection
 @section('content')
     <section class="checkout">
         <div class="container">
