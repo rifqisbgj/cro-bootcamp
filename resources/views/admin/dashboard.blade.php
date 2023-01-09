@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+@endsection
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+@endsection
+
 @section('title')
     My Dashboard
 @endsection
@@ -7,59 +21,52 @@
 @section('content')
     <section class="dashboard my-5">
         <div class="container">
-            <div class="row text-left">
-                <div class=" col-lg-12 col-12 header-wrap mt-4">
-                    <p class="story">
-                        DASHBOARD
-                    </p>
-                    <h2 class="primary-header ">
-                        My Bootcamps
-                    </h2>
-                </div>
-            </div>
-            <div class="row my-5">
-                @include('components.alert')
-                <table class="table">
-                    <tbody>
-                        @forelse ($ck as $co)
-                            <tr class="align-middle">
-                                <td width="18%">
-                                    <img src="/assets/images/item_bootcamp.png" height="120" alt="">
-                                </td>
-                                <td>
-                                    <p class="mb-2">
-                                        <strong>{{ $co->camp->title }}</strong>
-                                    </p>
-                                    <p>
-                                        {{ $co->created_at->format('M d, Y') }}
-                                    </p>
-                                </td>
-                                <td>
-                                    <strong>{{ $co->camp->price }}.000</strong>
-                                </td>
-                                <td>
-                                    <strong>
-                                        @if ($co->is_paid)
-                                            <strong class="text-green">Payment Success</strong>
-                                        @else
-                                            <strong>Waiting for Payment</strong>
-                                        @endif
-                                    </strong>
-                                </td>
-                                <td>
-                                    <a href="https://wa.me" class="btn btn-primary">
-                                        Contact Support
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">No Data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Camp</th>
+                        <th>Price</th>
+                        <th>Register Date</th>
+                        <th>Paid Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($ck as $co)
+                        <tr>
+                            <td>{{ $co->user->name }}</td>
+                            <td>{{ $co->camp->title }}</td>
+                            <td>{{ $co->camp->price }}</td>
+                            <td>{{ $co->created_at->format('M d Y') }}</td>
+                            <td>
+                                @if ($co->is_paid)
+                                    <span class="badge bg-success">Paid</span>
+                                @else
+                                    <span class="badge bg-warning">Waiting</span>
+                                @endif
+                            </td>
+                            <td>
+                                <form action="" method="POST">
+                                    @csrf
+                                    <button class="btn btn-primary btn-sm">Set to Paid</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                    @endforelse
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </section>
 @endsection
