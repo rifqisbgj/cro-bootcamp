@@ -21,6 +21,7 @@
 @section('content')
     <section class="dashboard my-5">
         <div class="container">
+            @include('components.alert')
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -47,10 +48,12 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="" method="POST">
-                                    @csrf
-                                    <button class="btn btn-primary btn-sm">Set to Paid</button>
-                                </form>
+                                @if (!$co->is_paid)
+                                    <form action="{{ route('admin.checkout.update', $co->id) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-primary btn-sm">Set to Paid</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty
