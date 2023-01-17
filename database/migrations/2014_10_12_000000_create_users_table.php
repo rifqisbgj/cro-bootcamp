@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('avatar')->nullable();
             $table->string('occupation')->nullable();
+            $table->string('phone', 15)->nullable();
+            $table->text('address')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
