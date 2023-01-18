@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\CheckoutController as UserCheckout;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
@@ -28,8 +28,8 @@ Route::get('/', function () {
 Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
-Route::get('payment/success', [UserController::class, 'midtransCallback']);
-Route::post('payment/success', [UserController::class, 'midtransCallback']);
+Route::get('payment/success', [UserCheckout::class, 'midtransCallback']);
+Route::post('payment/success', [UserCheckout::class, 'midtransCallback']);
 
 // Auth
 Route::middleware('auth')->group(function () {
@@ -38,9 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Checkout Start
-    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success')->middleware('ensureUserRole:user');
-    Route::get('checkout/{camp:slug}', [CheckoutController::class, 'create'])->name('checkout.create')->middleware('ensureUserRole:user');
-    Route::post('checkout/{camp}', [CheckoutController::class, 'store'])->name('checkout.store')->middleware('ensureUserRole:user');
+    Route::get('checkout/success', [UserCheckout::class, 'success'])->name('checkout.success')->middleware('ensureUserRole:user');
+    Route::get('checkout/{camp:slug}', [UserCheckout::class, 'create'])->name('checkout.create')->middleware('ensureUserRole:user');
+    Route::post('checkout/{camp}', [UserCheckout::class, 'store'])->name('checkout.store')->middleware('ensureUserRole:user');
     // End Checkout
 
     // global dashboard
@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     // user dashboard
     Route::prefix('user/dashboard')->namespace('User')->name('user.')->middleware('ensureUserRole:user')->group(function () {
         Route::get('/', [UserDashboard::class, 'index'])->name('dashboard');
-        Route::get('/checkout/invoice/{checkout}', [CheckoutController::class, 'invoice'])->name('checkout.invoice');
+        Route::get('/checkout/invoice/{checkout}', [UserCheckout::class, 'invoice'])->name('checkout.invoice');
     });
 
     // admin dashboard

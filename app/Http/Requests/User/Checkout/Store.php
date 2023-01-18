@@ -24,12 +24,10 @@ class Store extends FormRequest
      */
     public function rules()
     {
-        $expiredValidation = date('Y-m', time());
         return [
             'occupation' => 'required|string',
-            'card_number' => 'required|numeric|digits_between:8,16',
             'address' => 'required|string',
-            'phone' => 'required|string',
+            'phone' => 'required|string'
         ];
     }
 }

@@ -8,7 +8,6 @@ use App\Models\Camp;
 use Illuminate\Http\Request;
 use App\Models\Checkout;
 use App\Mail\Checkout\AfterCheckout;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Mail;
 use Str;
@@ -66,14 +65,18 @@ class CheckoutController extends Controller
         // update occupation user
         $user = Auth::user();
         $user->occupation = $data['occupation'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
         $user->save();
 
         // Add checkout
         $checkout = Checkout::create($data);
-        $this->getSnapDirect($checkout);
+        $url = $this->getSnapRedirect($checkout);
+
+        // return($url);
 
         // send email after checkout
-        Mail::to(Auth::user()->email)->send(new AfterCheckout($checkout));
+        // Mail::to(Auth::user()->email)->send(new AfterCheckout($checkout));
         return redirect(route('checkout.success'));
     }
 
@@ -127,7 +130,7 @@ class CheckoutController extends Controller
         return view('checkout.success_checkout');
     }
 
-    public function getSnapDirect(Checkout $checkout)
+    public function getSnapRedirect(Checkout $checkout)
     {
         // generate order ID
         $orderId = $checkout->id . '-' . Str::random(5);
@@ -136,11 +139,10 @@ class CheckoutController extends Controller
 
         $transaction_details = [
             'order_id' => $orderId,
-            'gross_amount' => $price,
-
+            'gross_amount' => $price
         ];
 
-        $item_details = [
+        $item_details[] = [
             'id' => $orderId,
             'price' => $price,
             'quantity' => 1,
@@ -166,14 +168,16 @@ class CheckoutController extends Controller
             'shipping_address' => $userData,
         ];
 
-        $midtrans_param = [
+        $midtrans_params = [
             'transaction_details' => $transaction_details,
             'item_details' => $item_details,
             'customer_details' => $cus_details
         ];
 
+        // return ($midtrans_params);
+
         try {
-            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_param)->redirect_url();
+            $paymentUrl = \Midtrans\Snap::getSnapToken($midtrans_params);
             $checkout->midtrans_url = $paymentUrl;
             $checkout->save();
 
@@ -183,9 +187,9 @@ class CheckoutController extends Controller
         }
     }
 
-    public function midtransCallback()
+    public function midtransCallback(Request $req)
     {
-        $notif = new Midtrans\Notification();
+        $notif = $req->method() == 'POST' ? new Midtrans\Notification(): Midtrans\Transaction::status($req->order_id);
 
         $transaction_status = $notif->transaction_status;
         $fraud = $notif->fraud_status;
