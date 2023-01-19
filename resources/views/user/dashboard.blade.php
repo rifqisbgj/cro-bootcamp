@@ -39,12 +39,14 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        @if ($co->is_paid)
-                                            <strong class="text-green">Payment Success</strong>
-                                        @else
-                                            <strong>Waiting for Payment</strong>
-                                        @endif
+                                        {{ $co->payment_status }}
                                     </strong>
+                                </td>
+                                <td>
+                                    @if ($co->payment_status == 'waiting')
+                                        <a href="{{ $co->camp->midtrans_url }}" class="btn btn-primary">
+                                            Pay Here
+                                        </a>
                                 </td>
                                 <td>
                                     <a href="https://wa.me" class="btn btn-primary">
@@ -54,7 +56,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5">No Data</td>
+                                <td colspan="5">No Camp Register</td>
                             </tr>
                         @endforelse
                     </tbody>

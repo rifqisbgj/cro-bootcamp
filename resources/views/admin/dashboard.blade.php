@@ -30,7 +30,6 @@
                         <th>Price</th>
                         <th>Register Date</th>
                         <th>Paid Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,18 +40,14 @@
                             <td>{{ $co->camp->price }}</td>
                             <td>{{ $co->created_at->format('M d Y') }}</td>
                             <td>
-                                @if ($co->is_paid)
+                                @if ($co->payment_status == 'waiting')
+                                    <span class="badge bg-warning">Waiting</span>
+                                @elseif($co->payment_status == 'pending')
+                                    <span class="badge bg-warning">Pending</span>
+                                @elseif($co->payment_status == 'paid')
                                     <span class="badge bg-success">Paid</span>
                                 @else
-                                    <span class="badge bg-warning">Waiting</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if (!$co->is_paid)
-                                    <form action="{{ route('admin.checkout.update', $co->id) }}" method="POST">
-                                        @csrf
-                                        <button class="btn btn-primary btn-sm">Set to Paid</button>
-                                    </form>
+                                    <span class="badge bg-danger">Failed</span>
                                 @endif
                             </td>
                         </tr>

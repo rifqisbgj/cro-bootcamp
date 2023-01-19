@@ -174,10 +174,8 @@ class CheckoutController extends Controller
             'customer_details' => $cus_details
         ];
 
-        // return ($midtrans_params);
-
         try {
-            $paymentUrl = \Midtrans\Snap::getSnapToken($midtrans_params);
+            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
             $checkout->midtrans_url = $paymentUrl;
             $checkout->save();
 
@@ -194,7 +192,7 @@ class CheckoutController extends Controller
         $transaction_status = $notif->transaction_status;
         $fraud = $notif->fraud_status;
 
-        $checkout_id = explode('-', $notif->order_id);
+        $checkout_id = explode('-', $notif->order_id)[0];
         $checkout = Checkout::find($checkout_id);
 
         if ($transaction_status == 'capture') {

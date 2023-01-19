@@ -33,11 +33,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row brands">
-                <div class="col-lg-12 col-12 text-center">
-                    <img src="/assets/images/brands.png" alt="">
-                </div>
-            </div>
         </div>
     </section>
 
@@ -322,11 +317,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row pb-70">
-                <div class="col-lg-12 col-12 text-center">
-                    <img src="/assets/images/brands.png" height="30" alt="">
                 </div>
             </div>
         </div>
