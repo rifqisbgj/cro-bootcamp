@@ -47,6 +47,7 @@
                                         <a href="{{ $co->camp->midtrans_url }}" class="btn btn-primary">
                                             Pay Here
                                         </a>
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="https://wa.me" class="btn btn-primary">
